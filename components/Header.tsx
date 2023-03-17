@@ -1,7 +1,10 @@
-// import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import Link from 'next/link'
+import Image from 'next/image'
+import img from '../assets/imgs/profile.png'
 function Header() {
     return (
-        <header >
+        <header>
             <div className='flex items-center space-x-2 md:space-x-10'>
                 <img
                     src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1198px-Netflix_2015_logo.svg.png'
@@ -11,7 +14,7 @@ function Header() {
                     className="cursor-pointer object-contain"
                 />
 
-                <ul className='flex'>
+                <ul className='hidden space-x-4 md:flex'>
                     <li className='headerLink'>Home</li>
                     <li className='headerLink'>TV Shows</li>
                     <li className='headerLink'>Movies</li>
@@ -22,7 +25,16 @@ function Header() {
             </div>
 
             <div>
-                {/* <MagnifyingGlassIcon className="hidden sm:inline" /> */}
+                <MagnifyingGlassIcon className="hidden h-6 w-6 sm:inline" />
+                <p className='hidden lg:inline'>Kids</p>
+                <BellIcon className='h-6 w-6' />
+                <Link href="/account">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+                        alt="/"
+                        className="cursor-pointer rounded"
+                    />
+                </Link>
             </div>
         </header>
     )
