@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { SubmitHandler } from 'react-hook-form/dist/types';
+import {useAuth} from '../custom-hook/useAuth'
 
 interface Inputs {
     email: string
@@ -19,7 +20,7 @@ function Login() {
         if (login) {
             // await signIn(email, password)
         } else {
-            // await signUp(email , password , fullname)
+            // await useAuth.signUp(email , password , fullname)
         }
     }
 
