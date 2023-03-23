@@ -1,6 +1,8 @@
+import React, { useRef, useState } from 'react'
+
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
-import React, { useRef, useState } from 'react'
+
 import { Movie } from '../models/main.model'
 import Thumbnail from './Thumbnail'
 
