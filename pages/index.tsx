@@ -15,10 +15,9 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
-  // products: Product[]
 }
 
-const Home = ({
+export default function Home ({
   netflixOriginals,
   actionMovies,
   comedyMovies,
@@ -27,10 +26,10 @@ const Home = ({
   romanceMovies,
   topRated,
   trendingNow,
-}: Props) => {
+}: Props){
   console.log(netflixOriginals)
   return (
-    <div className="relative h-screen bg-gradient-to-b from-gray-900/10 to-[#010511] lg:h-[140vh]">
+    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
@@ -52,8 +51,6 @@ const Home = ({
     </div>
   )
 }
-
-export default Home
 
 export const getServerSideProps = async () => {
   const [
