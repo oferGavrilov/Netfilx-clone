@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
 import Row from '../components/Row'
+import useAuth from '../custom-hook/useAuth'
 import { Movie } from '../models/main.model'
 import requests from '../utils/request'
 
@@ -17,7 +18,7 @@ interface Props {
   documentaries: Movie[]
 }
 
-export default function Home ({
+export default function Home({
   netflixOriginals,
   actionMovies,
   comedyMovies,
@@ -26,8 +27,11 @@ export default function Home ({
   romanceMovies,
   topRated,
   trendingNow,
-}: Props){
-  console.log(netflixOriginals)
+}: Props) {
+  const { loading} = useAuth()
+  
+  if(loading) return null
+
   return (
     <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
       <Head>
@@ -36,7 +40,7 @@ export default function Home ({
       </Head>
       <Header />
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
-        <Banner netflixOriginals={netflixOriginals}/>
+        <Banner netflixOriginals={netflixOriginals} />
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
           <Row title="Top Rated" movies={topRated} />
