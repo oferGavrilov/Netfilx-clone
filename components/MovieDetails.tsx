@@ -71,7 +71,7 @@ export default function MovieDetails() {
                                           </button>
                                     </div>
 
-                                    <button className='modalBtn'  onClick={() => setMuted(!muted)}>
+                                    <button className='modalBtn' onClick={() => setMuted(!muted)}>
                                           {muted ? (
                                                 <FaVolumeMute className='h-6 w-6' />
                                           ) : (
@@ -80,8 +80,27 @@ export default function MovieDetails() {
                                     </button>
                               </div>
                         </div>
+                        <div className='flex space-x-16 rounded-b-md bg-[#181818] px-10 py-10'>
+                              <div className='space-y-6 text-lg'>
+                                    <div className='flex items-center space-x-2 text-sm'>
+                                          <p className='font-semibold text-green-400'>{(movie?.vote_average * 10).toFixed()}% Match</p>
+                                          <p className='font-light'>{movie?.release_date || movie?.first_air_date}</p>
+                                    </div>
+                                    <div className='flex h-4 items-center justify-center rounded border border-white/40 px-1.5 text-xs'>
+                                          HD
+                                    </div>
+                              </div>
+                              <div>
+                                    <p className='w-5/6'>{movie?.overview}</p>
+                                    <div className='flex flex-col space-y-3 text-sm'>
+                                          <div>
+                                                <span className='text-[gray]'>Genres: </span>
+                                                {genres.map(genre => genre.name).join(', ')}
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
 
-                        <div></div>
                   </>
             </MuiModal>
       )
