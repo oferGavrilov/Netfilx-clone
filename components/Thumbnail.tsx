@@ -2,11 +2,8 @@ import Image from 'next/image'
 import React, { useEffect, useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
 import { modalState, movieState } from '../atoms/modal'
-import MuiModal from '@mui/material/Modal'
 
 import { Movie } from '../models/main.model'
-import { movieService } from '../services/move.service'
-import HoverImgModal from './HoverImgModal'
 
 interface Props {
       movie: Movie
@@ -15,8 +12,6 @@ interface Props {
 
 function Thumbnail({ movie, handleHover }: Props) {
       const [movieDetails, setMovieDetails] = useState<Movie | null>(null)
-      // const [isHover, setIsHover] = useState(false)
-      const [isHover, setIsHover] = useState(false)
       const [showModal, setShowModal] = useRecoilState(modalState)
       const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
       const elArticle = useRef<HTMLDivElement>(null)
