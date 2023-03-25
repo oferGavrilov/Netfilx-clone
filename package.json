@@ -22,7 +22,8 @@
     "recoil": "^0.7.7",
     "styled-component": "^2.8.0",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "tailwindcss": "^3.2.7"
+    "tailwindcss": "^3.2.7",
+    "ts-debounce": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "18.11.3",

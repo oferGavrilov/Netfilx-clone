@@ -7,15 +7,16 @@ import { Movie } from '../models/main.model'
 
 interface Props {
       movie: Movie
-      handleHover: Function
+      debounce: Function
       setPos(pos: Object): void
 }
 
-function Thumbnail({ movie, handleHover, setPos }: Props) {
+function Thumbnail({ movie, debounce, setPos }: Props) {
       const [movieDetails, setMovieDetails] = useState<Movie | null>(null)
       const [showModal, setShowModal] = useRecoilState(modalState)
       const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
       const elArticle = useRef<HTMLDivElement>(null)
+      const timeout: any = useRef()
 
       useEffect(() => {
             // loadMovieDetails()
@@ -39,6 +40,8 @@ function Thumbnail({ movie, handleHover, setPos }: Props) {
             }
       }
 
+    
+
       return (
             <article ref={elArticle}
                   className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px] '
@@ -46,11 +49,11 @@ function Thumbnail({ movie, handleHover, setPos }: Props) {
                         setCurrentMovie(movie)
                         setShowModal(true)
                   }}
-            >
+                  >
                   <Image src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path
                         }`}
-                        onMouseEnter={() => {
-                              handleHover('mouse-enter')
+                        onMouseOver={() => {
+                              debounce('mouse-enter')
                               onSetPos()
                         }}
                         alt="movie"
