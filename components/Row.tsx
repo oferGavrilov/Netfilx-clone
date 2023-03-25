@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import MuiModal from '@mui/material/Modal'
 
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
@@ -14,6 +15,8 @@ interface Props {
 function Row({ title, movies }: Props) {
       const rowRef = useRef<HTMLDivElement>(null)
       const [isMoved, setIsMoved] = useState(false)
+      const [isHover, setIsHover] = useState(false)
+      const [pos, setPos] = useState({ x: 0, y: 0 })
 
       const handleClick = (direction: string) => {
             setIsMoved(true)
@@ -21,10 +24,21 @@ function Row({ title, movies }: Props) {
                   const { scrollLeft, clientWidth } = rowRef.current
                   const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth
 
-                  rowRef.current.scrollTo({left:scrollTo , behavior:'smooth'})
+                  rowRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' })
             }
       }
 
+      function handleHover(ev?: any, type?: string) {
+            if (isHover && type === 'mouse-enter') return
+            console.log('Hover')
+            if (type === 'mouse-enter') {
+                  setPos({ x: ev.pageX, y: ev.pageY })
+                  setIsHover((type === 'mouse-enter') ? true : false)
+            }
+            else {
+                  setIsHover(false)
+            }
+      }
       return (
             <div className='h-40 space-y-0.5 md:space-y-2'>
                   <h2 className='w-56 cursor-pointer text-sm font-semibold text-[#e5e5e5] transition duration-200 hover:text-white md:text-2xl'>{title}</h2>
@@ -33,12 +47,22 @@ function Row({ title, movies }: Props) {
 
                         <div ref={rowRef} className='flex items-center scrollbar-hide space-x-5 overflow-x-scroll md:space-x-2.5 md:p-2'>
                               {movies.map(movie => (
-                                    <Thumbnail key={movie.id} movie={movie} />
+                                    <Thumbnail handleHover={handleHover} key={movie.id} movie={movie} />
                               ))}
                         </div>
+                        {isHover &&
+                              < MuiModal open={isHover} onClose={() => setIsHover(false)}
+                                    className='!fixed z-50' style={{ top: `${pos.y - 20}px`, left: `${pos.x - 250}px` }}>
+                                    <>
+                                          <div className='absolute bg-red-700 h-[250px] w-[450px] '
+                                                onMouseLeave={(ev) => handleHover(ev, 'mouse-leave')}>
+                                                hoverModal
+                                          </div>
+                                    </>
+                              </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
-            </div>
+            </div >
       )
 }
 

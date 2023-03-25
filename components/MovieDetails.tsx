@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-
 import MuiModal from '@mui/material/Modal'
 import { useRecoilState } from 'recoil'
-import { modalState, movieState } from '../atoms/modal'
+import ReactPlayer from 'react-player/lazy'
+
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { HandThumbUpIcon } from '@heroicons/react/24/outline'
-import { Element, Genre, Movie } from '../models/main.model'
+import { FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
+
+import { modalState, movieState } from '../atoms/modal'
+import { Element, Genre } from '../models/main.model'
 import { movieService } from '../services/move.service'
-import ReactPlayer from 'react-player/lazy'
-import { FaPlay, FaVolumeMute, FaVolumeOff, FaVolumeUp } from 'react-icons/fa'
 
 export default function MovieDetails() {
       const [showModal, setShowModal] = useRecoilState(modalState)
@@ -84,7 +85,7 @@ export default function MovieDetails() {
                               <div className="space-y-6 text-lg">
                                     <div className="flex items-center space-x-2 text-sm">
                                           <p className="font-semibold text-green-400">
-                                                {(movie!.vote_average * 10).toFixed()}% Match
+                                                {(movie?.vote_average * 10).toFixed()}% Match
                                           </p>
                                           <p className="font-light">
                                                 {movie?.release_date || movie?.first_air_date}
