@@ -31,7 +31,7 @@ function Row({ title, movies }: Props) {
       }
 
       function handleHover(type?: string) {
-            // if (isHover && type === 'mouse-enter') return
+            if (isHover && type === 'mouse-enter') return
             if (type === 'mouse-enter') {
                   setIsHover(true)
                   setTimeout(() => {
@@ -56,8 +56,8 @@ function Row({ title, movies }: Props) {
                         </div>
                         {size.width !== 0 &&
                               < MuiModal open={isHover} onClose={() => setIsHover(false)}
-                                    className='!fixed z-50' style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
-
+                                    className='!fixed z-50'
+                                    style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
                                     <HoverImgModal handleHover={handleHover} />
                               </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />

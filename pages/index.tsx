@@ -35,7 +35,7 @@ export default function Home({
   const showModal = useRecoilValue(modalState)
 
   if (loading) return null
-
+console.log(showModal)
   return (
     <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh]
                     ${showModal && '!h-screen overflow-hidden'}`}>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-import Link from 'next/link'
+import { VscTriangleDown } from 'react-icons/vsc'
 import useAuth from '../custom-hook/useAuth'
+import BrowseModal from './BrowseModal'
 
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [isShowBrowseModal, setIsShowBrowseModal] = useState(false)
     const { logout } = useAuth()
 
 
@@ -37,6 +39,11 @@ function Header() {
                     <li className='headerLink'>New & popular</li>
                     <li className='headerLink'>My List</li>
                 </ul>
+                <div onClick={() => setIsShowBrowseModal(!isShowBrowseModal)} className='flex relative pl-6 items-center gap-x-1 md:hidden cursor-pointer'>
+                    <span className=''>Browse</span>
+                    <VscTriangleDown className='text-m' />
+                    {isShowBrowseModal && <BrowseModal isOpen={isShowBrowseModal} setIsOpen={setIsShowBrowseModal}  />}
+                </div>
             </div>
 
             <div className='flex items-center space-x-4 text-sm font-light' >
@@ -44,12 +51,12 @@ function Header() {
                 <p className='hidden lg:inline'>Kids</p>
                 <BellIcon className='h-6 w-6' />
                 {/* <Link href="/account"> */}
-                    <img
-                        onClick={logout}
-                        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-                        alt="/"
-                        className="cursor-pointer rounded w-6"
-                    />
+                <img
+                    onClick={logout}
+                    src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+                    alt="/"
+                    className="cursor-pointer rounded w-6"
+                />
                 {/* </Link> */}
             </div>
         </header>
