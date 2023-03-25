@@ -24,7 +24,7 @@ export default function MovieDetails() {
 
       const loadMovieData = async () => {
             const data = await movieService.fetchMovie(movie?.id, movie?.media_type)
-            console.log('data', data);
+            console.log(data)
             if (data?.videos) {
                   const index = data.videos.results.findIndex((element: Element) => {
                         return element.type === 'Trailer'

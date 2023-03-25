@@ -8,9 +8,10 @@ import { Movie } from '../models/main.model'
 interface Props {
       movie: Movie
       handleHover: Function
+      setPos(pos: Object): void
 }
 
-function Thumbnail({ movie, handleHover }: Props) {
+function Thumbnail({ movie, handleHover, setPos }: Props) {
       const [movieDetails, setMovieDetails] = useState<Movie | null>(null)
       const [showModal, setShowModal] = useRecoilState(modalState)
       const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
@@ -26,6 +27,18 @@ function Thumbnail({ movie, handleHover }: Props) {
       //       setMovieDetails(movieDetails)
       // }
 
+      function onSetPos() {
+            if (elArticle.current) {
+                  let x = elArticle.current.getBoundingClientRect().left - 40
+                  if (x < 0) x = 20
+                  if (x + 350 >= window.innerWidth) x = window.innerWidth - 370
+                  let y = elArticle.current.getBoundingClientRect().top - 100
+                  if (y + 350 > window.innerHeight) y = window.innerHeight - 370
+                  if (y < 0) y = 20
+                  setPos({ x, y })
+            }
+      }
+
       return (
             <article ref={elArticle}
                   className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px] '
@@ -33,10 +46,13 @@ function Thumbnail({ movie, handleHover }: Props) {
                         setCurrentMovie(movie)
                         setShowModal(true)
                   }}
-                  >
+            >
                   <Image src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path
                         }`}
-                        onMouseEnter={(ev) => handleHover(ev, 'mouse-enter')}
+                        onMouseEnter={() => {
+                              handleHover('mouse-enter')
+                              onSetPos()
+                        }}
                         alt="movie"
                         className="rounded-sm object-cover md:rounded"
                         layout="fill" />

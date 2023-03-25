@@ -6,6 +6,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/solid'
 
 import { Movie } from '../models/main.model'
 import Thumbnail from './Thumbnail'
+import HoverImgModal from './HoverImgModal'
 
 interface Props {
       title: string
@@ -17,6 +18,7 @@ function Row({ title, movies }: Props) {
       const [isMoved, setIsMoved] = useState(false)
       const [isHover, setIsHover] = useState(false)
       const [pos, setPos] = useState({ x: 0, y: 0 })
+      const [size, setSize] = useState({ width: 0, height: 0 })
 
       const handleClick = (direction: string) => {
             setIsMoved(true)
@@ -28,15 +30,17 @@ function Row({ title, movies }: Props) {
             }
       }
 
-      function handleHover(ev?: any, type?: string) {
-            if (isHover && type === 'mouse-enter') return
-            console.log('Hover')
+      function handleHover(type?: string) {
+            // if (isHover && type === 'mouse-enter') return
             if (type === 'mouse-enter') {
-                  setPos({ x: ev.pageX, y: ev.pageY })
-                  setIsHover((type === 'mouse-enter') ? true : false)
+                  setIsHover(true)
+                  setTimeout(() => {
+                        setSize({ width: 350, height: 350 })
+                  }, 800)
             }
             else {
                   setIsHover(false)
+                  setSize({ width: 0, height: 0 })
             }
       }
       return (
@@ -47,18 +51,14 @@ function Row({ title, movies }: Props) {
 
                         <div ref={rowRef} className='flex items-center scrollbar-hide space-x-5 overflow-x-scroll md:space-x-2.5 md:p-2'>
                               {movies.map(movie => (
-                                    <Thumbnail handleHover={handleHover} key={movie.id} movie={movie} />
+                                    <Thumbnail setPos={setPos} handleHover={handleHover} key={movie.id} movie={movie} />
                               ))}
                         </div>
-                        {isHover &&
+                        {size.width !== 0 &&
                               < MuiModal open={isHover} onClose={() => setIsHover(false)}
-                                    className='!fixed z-50' style={{ top: `${pos.y - 20}px`, left: `${pos.x - 250}px` }}>
-                                    <>
-                                          <div className='absolute bg-red-700 h-[250px] w-[450px] '
-                                                onMouseLeave={(ev) => handleHover(ev, 'mouse-leave')}>
-                                                hoverModal
-                                          </div>
-                                    </>
+                                    className='!fixed z-50' style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
+
+                                    <HoverImgModal handleHover={handleHover} />
                               </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
