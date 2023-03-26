@@ -1,10 +1,15 @@
 import React, { useRef, useState } from 'react'
+import MuiModal from '@mui/material/Modal'
 
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/24/solid'
 
 import { Movie } from '../models/main.model'
 import Thumbnail from './Thumbnail'
+import HoverImgModal from './HoverImgModal'
+import { Menu, Popover } from '@mui/material'
+import { utilService } from '../services/util.service'
+import { debounce } from "ts-debounce";
 
 interface Props {
       title: string
@@ -14,6 +19,12 @@ interface Props {
 function Row({ title, movies }: Props) {
       const rowRef = useRef<HTMLDivElement>(null)
       const [isMoved, setIsMoved] = useState(false)
+      const [isHover, setIsHover] = useState(false)
+      const [pos, setPos] = useState({ x: 0, y: 0 })
+      const [size, setSize] = useState({ width: 0, height: 0 })
+
+      const debouncedFunction = debounce(handleHover, 2000)
+
 
       const handleClick = (direction: string) => {
             setIsMoved(true)
@@ -21,10 +32,28 @@ function Row({ title, movies }: Props) {
                   const { scrollLeft, clientWidth } = rowRef.current
                   const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth
 
-                  rowRef.current.scrollTo({left:scrollTo , behavior:'smooth'})
+                  rowRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' })
             }
       }
 
+      function handleHover(type?: string) {
+            if (isHover && type === 'mouse-enter') return
+            if (type === 'mouse-enter') {
+                  setIsHover(true)
+
+                  // setTimeout(() => {
+                  //       setSize({ width: 0, height: 0 })
+                  // }, 1)
+
+                  setSize({ width: 350, height: 350 })
+                  // setTimeout(() => {
+                  // }, 2)
+            }
+            else {
+                  setIsHover(false)
+                  setSize({ width: 0, height: 0 })
+            }
+      }
       return (
             <div className='h-40 space-y-0.5 md:space-y-2'>
                   <h2 className='w-56 cursor-pointer text-sm font-semibold text-[#e5e5e5] transition duration-200 hover:text-white md:text-2xl'>{title}</h2>
@@ -33,12 +62,18 @@ function Row({ title, movies }: Props) {
 
                         <div ref={rowRef} className='flex items-center scrollbar-hide space-x-5 overflow-x-scroll md:space-x-2.5 md:p-2'>
                               {movies.map(movie => (
-                                    <Thumbnail key={movie.id} movie={movie} />
+                                    <Thumbnail setPos={setPos} debounce={debouncedFunction} key={movie.id} movie={movie} />
                               ))}
                         </div>
+                        {isHover &&
+                              < MuiModal open={isHover} onClose={() => setIsHover(false)}
+                                    className='!fixed z-50'
+                                    style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
+                                    <HoverImgModal handleHover={handleHover} />
+                              </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
-            </div>
+            </div >
       )
 }
 

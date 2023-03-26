@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { SubmitHandler } from 'react-hook-form/dist/types';
-import {useAuth} from '../custom-hook/useAuth'
+import useAuth  from '../custom-hook/useAuth'
 
 interface Inputs {
     email: string
@@ -12,15 +12,15 @@ interface Inputs {
 }
 
 function Login() {
-    const [login, setLogin] = useState(false)
-
+    const [login, setLogin] = useState(true)
+    const { signIn, signUp } = useAuth()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
-    const onSubmit: SubmitHandler<Inputs> = async ({ email, password , fullname }) => {
+    const onSubmit: SubmitHandler<Inputs> = async ({ email, password, fullname }) => {
         if (login) {
-            // await signIn(email, password)
+            await signIn(email, password)
         } else {
-            // await useAuth.signUp(email , password , fullname)
+            await signUp(email, password)
         }
     }
 
@@ -48,18 +48,18 @@ function Login() {
                 <div className='space-y-4'>
                     {!login &&
                         <label className='inline-block w-full'>
-                        <input
-                            type="text"
-                            placeholder="Full Name"
-                            className="input"
-                            {...register('fullname', { required: true })}
+                            <input
+                                type="text"
+                                placeholder="Full Name"
+                                className="input"
+                                {...register('fullname', { required: true })}
                             />
-                        {errors.email && (
-                            <p className="p-1 text-[13px] font-light  text-orange-500">
-                                Please enter a full name.
-                            </p>
-                        )}
-                    </label>}
+                            {errors.email && (
+                                <p className="p-1 text-[13px] font-light  text-orange-500">
+                                    Please enter a full name.
+                                </p>
+                            )}
+                        </label>}
 
                     <label htmlFor="" className='inline-block w-full'>
                         <input

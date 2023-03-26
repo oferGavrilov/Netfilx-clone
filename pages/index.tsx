@@ -1,8 +1,12 @@
 import Head from 'next/head'
+import { useRecoilValue } from 'recoil'
+import { modalState } from '../atoms/modal'
 
 import Banner from '../components/Banner'
 import Header from '../components/Header'
+import MovieDetails from '../components/MovieDetails'
 import Row from '../components/Row'
+import useAuth from '../custom-hook/useAuth'
 import { Movie } from '../models/main.model'
 import requests from '../utils/request'
 
@@ -17,7 +21,7 @@ interface Props {
   documentaries: Movie[]
 }
 
-export default function Home ({
+export default function Home({
   netflixOriginals,
   actionMovies,
   comedyMovies,
@@ -26,17 +30,22 @@ export default function Home ({
   romanceMovies,
   topRated,
   trendingNow,
-}: Props){
-  console.log(netflixOriginals)
+}: Props) {
+  const { loading } = useAuth()
+  const showModal = useRecoilValue(modalState)
+
+  if (loading) return null
+console.log(showModal)
   return (
-    <div className="relative h-screen bg-gradient-to-b lg:h-[140vh]">
+    <div className={`relative h-screen bg-gradient-to-b lg:h-[140vh]
+                    ${showModal && '!h-screen overflow-hidden'}`}>
       <Head>
         <title>Home - Netflix</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
-        <Banner netflixOriginals={netflixOriginals}/>
+        <Banner netflixOriginals={netflixOriginals} />
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
           <Row title="Top Rated" movies={topRated} />
@@ -48,6 +57,7 @@ export default function Home ({
           <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
+      <MovieDetails />
     </div>
   )
 }
