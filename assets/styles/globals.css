@@ -35,5 +35,15 @@
         @apply flex h-11 w-11 items-center justify-center rounded-full border-2
          border-[gray] bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10
     }
+
+    .center-flex {
+        @apply flex justify-center items-center
+    }
+
+    /* HoverModal */
+    .hover-modal-btn {
+        @apply flex justify-center items-center bg-[#141414] cursor-pointer
+         h-8 w-8 border border-zinc-300 rounded-full hover:border-white
+    }
     
 }
