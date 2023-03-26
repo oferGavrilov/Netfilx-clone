@@ -65,12 +65,12 @@ function Row({ title, movies }: Props) {
                                     <Thumbnail setPos={setPos} debounce={debouncedFunction} key={movie.id} movie={movie} />
                               ))}
                         </div>
-                        {isHover &&
+                        {/* {isHover &&
                               < MuiModal open={isHover} onClose={() => setIsHover(false)}
                                     className='!fixed z-50'
                                     style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
                                     <HoverImgModal handleHover={handleHover} />
-                              </MuiModal>}
+                              </MuiModal>} */}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
             </div >
@@ -78,3 +78,9 @@ function Row({ title, movies }: Props) {
 }
 
 export default Row
+
+let value1 = 2
+let value2 = 4
+
+value1 *= value1 + value2 * value2 / value1
+console.log(value1)
