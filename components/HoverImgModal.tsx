@@ -36,7 +36,7 @@ function HoverImgModal({ handleHover }: Props) {
   }
 
     return (
-        <article 
+        <article onMouseLeave={(ev) => handleHover(ev, 'mouse-leave')} 
          className='bg-[#141414] flex flex-col rounded-lg font-medium'>
             <Image src={`https://image.tmdb.org/t/p/w500${movie?.backdrop_path || movie?.poster_path}`}
                 alt="movie"
@@ -91,5 +91,3 @@ function HoverImgModal({ handleHover }: Props) {
 }
 
 export default HoverImgModal
-
-// onMouseLeave={(ev) => handleHover(ev, 'mouse-leave')}
