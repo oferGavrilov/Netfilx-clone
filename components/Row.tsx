@@ -9,7 +9,6 @@ import Thumbnail from './Thumbnail'
 import HoverImgModal from './HoverImgModal'
 import { Menu, Popover } from '@mui/material'
 import { utilService } from '../services/util.service'
-import { debounce } from "ts-debounce";
 
 interface Props {
       title: string
@@ -22,9 +21,6 @@ function Row({ title, movies }: Props) {
       const [isHover, setIsHover] = useState(false)
       const [pos, setPos] = useState({ x: 0, y: 0 })
       const [size, setSize] = useState({ width: 0, height: 0 })
-
-      const debouncedFunction = debounce(handleHover, 2000)
-
 
       const handleClick = (direction: string) => {
             setIsMoved(true)
@@ -40,11 +36,9 @@ function Row({ title, movies }: Props) {
             if (isHover && type === 'mouse-enter') return
             if (type === 'mouse-enter') {
                   setIsHover(true)
-
                   // setTimeout(() => {
                   //       setSize({ width: 0, height: 0 })
                   // }, 1)
-
                   setSize({ width: 350, height: 350 })
                   // setTimeout(() => {
                   // }, 2)
@@ -62,15 +56,15 @@ function Row({ title, movies }: Props) {
 
                         <div ref={rowRef} className='flex items-center scrollbar-hide space-x-5 overflow-x-scroll md:space-x-2.5 md:p-2'>
                               {movies.map(movie => (
-                                    <Thumbnail setPos={setPos} debounce={debouncedFunction} key={movie.id} movie={movie} />
+                                    <Thumbnail setPos={setPos} debounce={handleHover} key={movie.id} movie={movie} />
                               ))}
                         </div>
-                        {/* {isHover &&
-                              < MuiModal open={isHover} onClose={() => setIsHover(false)}
+                        {isHover &&
+                              < MuiModal hideBackdrop={true} open={isHover} onClose={() => setIsHover(false)}
                                     className='!fixed z-50'
                                     style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
                                     <HoverImgModal handleHover={handleHover} />
-                              </MuiModal>} */}
+                              </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
             </div >
@@ -79,8 +73,8 @@ function Row({ title, movies }: Props) {
 
 export default Row
 
-let value1 = 2
-let value2 = 4
+// let value1 = 2
+// let value2 = 4
 
-value1 *= value1 + value2 * value2 / value1
-console.log(value1)
+// value1 *= value1 + value2 * value2 / value1
+// console.log(value1)

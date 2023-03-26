@@ -40,8 +40,6 @@ function Thumbnail({ movie, debounce, setPos }: Props) {
             }
       }
 
-    
-
       return (
             <article ref={elArticle}
                   className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px] '
@@ -54,6 +52,7 @@ function Thumbnail({ movie, debounce, setPos }: Props) {
                         }`}
                         onMouseOver={() => {
                               debounce('mouse-enter')
+                              setCurrentMovie(movie)
                               onSetPos()
                         }}
                         alt="movie"
