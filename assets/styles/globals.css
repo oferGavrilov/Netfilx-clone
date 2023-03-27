@@ -52,5 +52,4 @@
     .hover-modal-btn {
         @apply flex justify-center items-center bg-[#141414] cursor-pointer h-8 w-8 border-[2px] border-zinc-300 rounded-full hover: border-white
     }
-
 }
