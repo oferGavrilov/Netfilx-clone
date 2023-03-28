@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
 import { modalState, movieState } from "../atoms/modal"
 import { movieService } from "../services/move.service"
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player/lazy"
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa"
 
 interface Props {
@@ -20,6 +20,7 @@ function HoverImgModal({ handleHover }: Props) {
     const [trailer, setTrailer] = useState('')
     const [data, setData] = useState<Data>()
     const [muted, setMuted] = useState(true)
+    const [isReady, setIsReady] = useState(false)
 
     useEffect(() => {
         if (!movie) return
@@ -64,7 +65,8 @@ function HoverImgModal({ handleHover }: Props) {
             <ReactPlayer url={`https://www.youtube.com/watch?v=${trailer}`}
                 width="100%"
                 height="100%"
-                playing
+                loop={true}
+                playing={true}
                 muted={muted} />
         }
              {trailer && <button className='modalBtn h-9 w-9 absolute bottom-5 right-5' onClick={() => setMuted(!muted)}>
@@ -109,10 +111,10 @@ function HoverImgModal({ handleHover }: Props) {
                         </div>
                 </div>
                 <ul className='flex text-[#e5e5e5] font-medium'>
-                    {data?.genres.map((genre, idx) => (
+                    {data?.genres?.map((genre, idx) => (
                         <li className='center-flex' key={genre.id}>
                             {genre.name}
-                            {idx < (data?.genres.length - 1) && <BsCircleFill className='h-1 w-1 mx-[8px]' />}
+                            {idx < (data?.genres?.length - 1) && <BsCircleFill className='h-1 w-1 mx-[8px]' />}
                         </li>
                     )) } 
                 </ul>
