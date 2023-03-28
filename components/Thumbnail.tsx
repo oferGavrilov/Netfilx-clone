@@ -2,7 +2,6 @@ import Image from 'next/image'
 import React, { useEffect, useState, useRef } from 'react'
 import { useRecoilState } from 'recoil'
 import { modalState, movieState } from '../atoms/modal'
-
 import { Movie } from '../models/main.model'
 
 interface Props {
@@ -47,7 +46,7 @@ function Thumbnail({ movie, debounce, setPos }: Props) {
                         setCurrentMovie(movie)
                         setShowModal(true)
                   }}
-                  >
+            >
                   <Image src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path
                         }`}
                         onMouseOver={() => {

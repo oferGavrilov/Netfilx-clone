@@ -20,12 +20,10 @@ function HoverImgModal({ handleHover }: Props) {
     useEffect(() => {
         if (!movie) return
         loadMovieData()
-        console.log('movie:', movie)
   }, [movie])
 
   const loadMovieData = async () => {
         const data = await movieService.fetchMovie(movie?.id, movie?.media_type)
-        console.log(data)
         if (data?.videos) {
               const index = data.videos.results.findIndex((element: Element) => {
                     return element.type === 'Trailer'
