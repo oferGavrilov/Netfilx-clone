@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import { useRecoilState } from 'recoil'
-import { modalState, movieState } from '../atoms/modal'
+import { movieState } from '../atoms/modal'
+
 import { Movie } from '../models/main.model'
 
 interface Props {
@@ -11,21 +12,8 @@ interface Props {
 }
 
 function Thumbnail({ movie, debounce, setPos }: Props) {
-      const [movieDetails, setMovieDetails] = useState<Movie | null>(null)
-      const [showModal, setShowModal] = useRecoilState(modalState)
       const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
       const elArticle = useRef<HTMLDivElement>(null)
-      const timeout: any = useRef()
-
-      useEffect(() => {
-            // loadMovieDetails()
-            // onSetPos()
-      }, [])
-
-      // async function loadMovieDetails() {
-      //       const movieDetails = await movieService.getMovieById(movie.id) as Movie
-      //       setMovieDetails(movieDetails)
-      // }
 
       function onSetPos() {
             if (elArticle.current) {
@@ -41,12 +29,7 @@ function Thumbnail({ movie, debounce, setPos }: Props) {
 
       return (
             <article ref={elArticle}
-                  className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px] '
-                  onClick={() => {
-                        setCurrentMovie(movie)
-                        setShowModal(true)
-                  }}
-            >
+                  className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px]'>
                   <Image src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path
                         }`}
                         onMouseOver={() => {
