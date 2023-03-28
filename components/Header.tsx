@@ -3,6 +3,7 @@ import { BellIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { VscTriangleDown } from 'react-icons/vsc'
 import useAuth from '../custom-hook/useAuth'
 import BrowseModal from './BrowseModal'
+import Link from 'next/link'
 
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -42,7 +43,7 @@ function Header() {
                 <div onClick={() => setIsShowBrowseModal(!isShowBrowseModal)} className='flex relative pl-6 items-center gap-x-1 md:hidden cursor-pointer'>
                     <span className=''>Browse</span>
                     <VscTriangleDown className='text-m' />
-                    {isShowBrowseModal && <BrowseModal isOpen={isShowBrowseModal} setIsOpen={setIsShowBrowseModal}  />}
+                    {isShowBrowseModal && <BrowseModal isOpen={isShowBrowseModal} setIsOpen={setIsShowBrowseModal} />}
                 </div>
             </div>
 
@@ -50,14 +51,14 @@ function Header() {
                 <MagnifyingGlassIcon className="hidden h-6 w-6 sm:inline" />
                 <p className='hidden lg:inline'>Kids</p>
                 <BellIcon className='h-6 w-6' />
-                {/* <Link href="/account"> */}
-                <img
-                    onClick={logout}
-                    src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-                    alt="/"
-                    className="cursor-pointer rounded w-6"
-                />
-                {/* </Link> */}
+                <Link href="/account">
+                    <img
+                        // onClick={logout}
+                        src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+                        alt="/"
+                        className="cursor-pointer rounded w-6"
+                    />
+                </Link>
             </div>
         </header>
     )
