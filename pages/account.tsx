@@ -1,13 +1,17 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import useAuth from '../custom-hook/useAuth'
+import { TbVideo } from 'react-icons/tb'
 
 function Account() {
-
       const { user } = useAuth()
-      console.log(user)
+
+      const getCreatedDate = () => {
+            const dateArray = user?.metadata?.creationTime?.split(' ')
+            if (!user || !dateArray) return Date.now()
+            if (dateArray) return dateArray[2] + " " + dateArray[3]
+      }
 
       return (
             <div>
@@ -33,14 +37,24 @@ function Account() {
                               />
                         </Link>
                   </header>
-
-                  <main className='pt-24'>
-                        <div>
+                  <main className='pt-24 px-12 font-'>
+                        <div className='flex items-center pb-4 gap-x-8 border-b-2'>
                               <h1 className='text-3xl md:text-4xl'>Account</h1>
-                              <div>
-
+                              <div className='flex items-center gap-x-3'>
+                                    <TbVideo className='text-xl text-red-600' />
+                                    <span className='font-bold'>Member Since {getCreatedDate()}</span>
                               </div>
                         </div>
+                        <ul className='pt-8'>
+                              <li className='flex justify-between'>
+                                    <span className='font-semibold'>{user?.email}</span>
+                                    <button className='text-[#4ca3fb] hover:underline'>Change email</button>
+                              </li>
+                              <li className='flex justify-between py-4'>
+                                    <span className='text-[#afadad]'>Password: ********</span>
+                                    <button className='text-[#4ca3fb] hover:underline'>Change password</button>
+                              </li>
+                        </ul>
                   </main>
             </div>
       )
