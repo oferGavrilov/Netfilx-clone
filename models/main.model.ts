@@ -31,3 +31,9 @@ export interface Element {
   | 'Trailer'
   | 'Teaser'
 }
+
+export interface Data {
+  genres: Genre[]
+  adult: boolean
+  runtime: number
+}
