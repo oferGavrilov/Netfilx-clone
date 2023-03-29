@@ -27,16 +27,21 @@ function Thumbnail({ movie, debounce, setPos }: Props) {
             }
       }
 
+      function onHover() {
+            if (elArticle.current) {
+                  const pos = {x: elArticle.current.getBoundingClientRect().left, y:elArticle.current.getBoundingClientRect().top}
+                  debounce(pos, elArticle.current.clientWidth, elArticle.current.clientHeight)
+                  setCurrentMovie(movie)
+                  onSetPos()
+            }
+      }
+
       return (
             <article ref={elArticle}
                   className='relative h-28 min-w-[180px] cursor-pointer ease-out md:h-36 md:min-w-[260px]'>
                   <Image src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path
                         }`}
-                        onMouseOver={() => {
-                              debounce('mouse-enter')
-                              setCurrentMovie(movie)
-                              onSetPos()
-                        }}
+                        onMouseOver={onHover}
                         alt="movie"
                         className="rounded-sm object-cover md:rounded"
                         layout="fill" />

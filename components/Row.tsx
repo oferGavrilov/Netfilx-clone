@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MuiModal from '@mui/material/Modal'
 
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
@@ -7,8 +7,7 @@ import { ChevronRightIcon } from '@heroicons/react/24/solid'
 import { Movie } from '../models/main.model'
 import Thumbnail from './Thumbnail'
 import HoverImgModal from './HoverImgModal'
-import { Menu, Popover } from '@mui/material'
-import { utilService } from '../services/util.service'
+import debounce from 'debounce';
 
 interface Props {
       title: string
@@ -19,8 +18,15 @@ function Row({ title, movies }: Props) {
       const rowRef = useRef<HTMLDivElement>(null)
       const [isMoved, setIsMoved] = useState(false)
       const [isHover, setIsHover] = useState(false)
-      const [pos, setPos] = useState({ x: 0, y: 0 })
+      const [modalPos, setModalPos] = useState({ x: 0, y: 0 })
+      const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
       const [size, setSize] = useState({ width: 0, height: 0 })
+      const debounceHover = debounce(handleHover, 1000)
+      useEffect(() => {
+            const handleMouseMove = (event: any) => setMousePos({ x: event.clientX + document.body.scrollLeft, y: event.clientY + document.body.scrollTop })
+            window.addEventListener('mousemove', handleMouseMove);
+            return () => {window.removeEventListener('mousemove', handleMouseMove)} 
+      })
 
       const handleClick = (direction: string) => {
             setIsMoved(true)
@@ -32,16 +38,20 @@ function Row({ title, movies }: Props) {
             }
       }
 
-      function handleHover(type?: string) {
+      function handleHover(pos: {x: number, y: number}, width: number, height: number) {
+            console.log('pos', pos)
+            console.log('mousePos', mousePos)
+            if(pos.x < mousePos.x && pos.x + width > mousePos.x && 
+                  pos.y < mousePos.y && pos.y + height > mousePos.y) {
+                        toggleModal('mouse-enter')  
+                  }
+      }
+
+      function toggleModal(type?: string) {
             if (isHover && type === 'mouse-enter') return
             if (type === 'mouse-enter') {
                   setIsHover(true)
-                  // setTimeout(() => {
-                  //       setSize({ width: 0, height: 0 })
-                  // }, 1)
                   setSize({ width: 350, height: 350 })
-                  // setTimeout(() => {
-                  // }, 2)
             }
             else {
                   setIsHover(false)
@@ -56,14 +66,14 @@ function Row({ title, movies }: Props) {
 
                         <div ref={rowRef} className='flex items-center scrollbar-hide space-x-5 overflow-x-scroll md:space-x-2.5 md:p-2'>
                               {movies.map(movie => (
-                                    <Thumbnail setPos={setPos} debounce={handleHover} key={movie.id} movie={movie} />
+                                    <Thumbnail setPos={setModalPos} debounce={debounceHover} key={movie.id} movie={movie} />
                               ))}
                         </div>
                         {isHover &&
                               < MuiModal hideBackdrop={true} open={isHover} onClose={() => setIsHover(false)}
                                     className='!fixed z-50'
-                                    style={{ top: `${pos.y}px`, left: `${pos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
-                                    <HoverImgModal handleHover={handleHover} />
+                                    style={{ top: `${modalPos.y}px`, left: `${modalPos.x}px`, width: size.width + 'px', height: size.height + 'px' }}>
+                                    <HoverImgModal handleHover={toggleModal} />
                               </MuiModal>}
                         <ChevronRightIcon className='arrow right-2' onClick={() => handleClick("right")} />
                   </div>
