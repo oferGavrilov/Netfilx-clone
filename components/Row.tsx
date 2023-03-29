@@ -24,9 +24,9 @@ function Row({ title, movies }: Props) {
       const debounceHover = debounce(handleHover, 1000)
       useEffect(() => {
             const handleMouseMove = (event: any) =>{
-                  setMousePos({ x: event.offsetX, y: event.offsetY })
+                  setMousePos({ x: event.clientX, y: event.clientY })
                   console.log('event:', event)
-                  console.log('modalPos:', event.offsetX, event.offsetY)
+                  console.log('modalPos:', event.clientX, event.clientY)
             } 
             window.addEventListener('mousemove', handleMouseMove);
             return () => {window.removeEventListener('mousemove', handleMouseMove)} 
@@ -43,12 +43,13 @@ function Row({ title, movies }: Props) {
       }
 
       function handleHover(pos: {x: number, y: number}, width: number, height: number) {
-            console.log('pos', pos)
-            console.log('mousePos', mousePos)
-            if(pos.x < mousePos.x && pos.x + width > mousePos.x && 
-                  pos.y < mousePos.y && pos.y + height > mousePos.y) {
-                        toggleModal('mouse-enter')  
-                  }
+            setMousePos(mousePos => {
+                  if(pos.x < mousePos.x && pos.x + width > mousePos.x && 
+                        pos.y < mousePos.y && pos.y + height > mousePos.y) {
+                              toggleModal('mouse-enter')  
+                        }
+                  return mousePos
+            })
       }
 
       function toggleModal(type?: string) {
