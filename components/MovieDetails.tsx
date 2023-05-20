@@ -9,7 +9,7 @@ import { FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 
 import { modalState, movieState } from '../atoms/modal'
 import { Element, Genre } from '../models/main.model'
-import { movieService } from '../services/move.service'
+import { movieService } from '../services/movie.service'
 
 export default function MovieDetails() {
       const [showModal, setShowModal] = useRecoilState(modalState)
@@ -24,7 +24,6 @@ export default function MovieDetails() {
 
       const loadMovieData = async () => {
             const data = await movieService.fetchMovie(movie?.id, movie?.media_type)
-            console.log(data)
             if (data?.videos) {
                   const index = data.videos.results.findIndex((element: Element) => {
                         return element.type === 'Trailer'

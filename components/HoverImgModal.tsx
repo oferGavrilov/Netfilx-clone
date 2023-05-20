@@ -6,7 +6,7 @@ import { BsCircleFill } from 'react-icons/bs'
 import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
 import { modalState, movieState } from "../atoms/modal"
-import { movieService } from "../services/move.service"
+import { movieService } from "../services/movie.service"
 import ReactPlayer from "react-player/lazy"
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa"
 

@@ -22,11 +22,10 @@ function Row({ title, movies }: Props) {
       const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
       const [size, setSize] = useState({ width: 0, height: 0 })
       const debounceHover = debounce(handleHover, 1000)
+      
       useEffect(() => {
             const handleMouseMove = (event: any) =>{
                   setMousePos({ x: event.clientX, y: event.clientY })
-                  console.log('event:', event)
-                  console.log('modalPos:', event.clientX, event.clientY)
             } 
             window.addEventListener('mousemove', handleMouseMove);
             return () => {window.removeEventListener('mousemove', handleMouseMove)} 
@@ -87,4 +86,3 @@ function Row({ title, movies }: Props) {
 }
 
 export default Row
-
