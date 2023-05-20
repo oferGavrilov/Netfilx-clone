@@ -23,7 +23,11 @@ function Row({ title, movies }: Props) {
       const [size, setSize] = useState({ width: 0, height: 0 })
       const debounceHover = debounce(handleHover, 1000)
       useEffect(() => {
-            const handleMouseMove = (event: any) => setMousePos({ x: event.clientX + document.body.scrollLeft, y: event.clientY + document.body.scrollTop })
+            const handleMouseMove = (event: any) =>{
+                  setMousePos({ x: event.clientX, y: event.clientY })
+                  console.log('event:', event)
+                  console.log('modalPos:', event.clientX, event.clientY)
+            } 
             window.addEventListener('mousemove', handleMouseMove);
             return () => {window.removeEventListener('mousemove', handleMouseMove)} 
       })
@@ -39,12 +43,13 @@ function Row({ title, movies }: Props) {
       }
 
       function handleHover(pos: {x: number, y: number}, width: number, height: number) {
-            console.log('pos', pos)
-            console.log('mousePos', mousePos)
-            if(pos.x < mousePos.x && pos.x + width > mousePos.x && 
-                  pos.y < mousePos.y && pos.y + height > mousePos.y) {
-                        toggleModal('mouse-enter')  
-                  }
+            setMousePos(mousePos => {
+                  if(pos.x < mousePos.x && pos.x + width > mousePos.x && 
+                        pos.y < mousePos.y && pos.y + height > mousePos.y) {
+                              toggleModal('mouse-enter')  
+                        }
+                  return mousePos
+            })
       }
 
       function toggleModal(type?: string) {
@@ -83,8 +88,3 @@ function Row({ title, movies }: Props) {
 
 export default Row
 
-// let value1 = 2
-// let value2 = 4
-
-// value1 *= value1 + value2 * value2 / value1
-// console.log(value1)
