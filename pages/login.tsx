@@ -31,7 +31,7 @@ function Login() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Image
-                src="/../public/login.jpg"
+                src="/login.jpg"
                 alt="login-image"
                 layout='fill'
                 objectFit='cover'

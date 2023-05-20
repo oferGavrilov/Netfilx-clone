@@ -4,8 +4,8 @@ import React from 'react'
 import useAuth from '../custom-hook/useAuth'
 import { TbVideo } from 'react-icons/tb'
 
-function Account() {
-      const { user } = useAuth()
+function Account () {
+      const { user, logout } = useAuth()
 
       const getCreatedDate = () => {
             const dateArray = user?.metadata?.creationTime?.split(' ')
@@ -55,6 +55,7 @@ function Account() {
                                     <button className='text-[#4ca3fb] hover:underline'>Change password</button>
                               </li>
                         </ul>
+                        <button onClick={logout} className='bg-red-700 font-bold py-2 px-4 tracking-wider rounded-sm float-right my-4' >Logout</button>
                   </main>
             </div>
       )
